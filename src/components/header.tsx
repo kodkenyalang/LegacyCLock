@@ -1,5 +1,5 @@
 import { ShieldCheck } from 'lucide-react';
-import { ConnectWalletButton } from './connect-wallet-button';
+import { ThirdwebConnectButton } from './thirdweb-connect-button';
 
 export function Header() {
   return (
@@ -11,7 +11,7 @@ export function Header() {
             LegacyClock
           </h1>
         </div>
-        <ConnectWalletButton />
+        <ThirdwebConnectButton />
       </div>
     </header>
   );

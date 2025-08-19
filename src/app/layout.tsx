@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { LegacyClockProvider } from '@/hooks/use-legacy-clock';
+import { ThirdwebProvider } from 'thirdweb/react';
 
 export const metadata: Metadata = {
   title: 'LegacyClock',
@@ -21,10 +22,12 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"></link>
       </head>
       <body className="font-body antialiased">
-        <LegacyClockProvider>
-          {children}
-          <Toaster />
-        </LegacyClockProvider>
+        <ThirdwebProvider>
+          <LegacyClockProvider>
+            {children}
+            <Toaster />
+          </LegacyClockProvider>
+        </ThirdwebProvider>
       </body>
     </html>
   );

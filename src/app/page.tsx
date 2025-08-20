@@ -9,7 +9,7 @@ import { TestatorView } from '@/components/testator-view';
 import { BeneficiaryView } from '@/components/beneficiary-view';
 
 export default function Home() {
-  const { isConnected, userAddress } = useLegacyClock();
+  const { isConnected } = useLegacyClock();
 
   return (
     <div className="flex flex-col min-h-screen">

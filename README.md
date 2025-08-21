@@ -21,7 +21,7 @@ This project is built with a modern, robust, and type-safe technology stack:
 *   **Language**: [TypeScript](https://www.typescriptlang.org/)
 *   **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [ShadCN/UI](https://ui.shadcn.com/) for beautiful, accessible components.
 *   **Web3**: [Thirdweb](https://thirdweb.com/) for multi-wallet connectivity and smart contract interaction.
-*   **AI (optional)**: [Genkit](https://firebase.google.com/docs/genkit) is configured for potential future AI-powered features.
+  
 
 ## Getting Started
 

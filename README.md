@@ -2,7 +2,7 @@
 
 LegacyClock is a decentralized application (dApp) that allows users to create, manage, and securely store their digital wills on the blockchain. It ensures that your digital assets and last wishes are passed on to your designated beneficiaries only after a predetermined period of inactivity, providing peace of mind and a secure, trustless system for digital inheritance.
 
-![LegacyClock Screenshot](https://placehold.co/800x450.png?text=LegacyClock+Interface)
+![LegacyClock Screenshot](https://github.com/kodkenyalang/LegacyCLock/blob/main/LegacyClock.png)
 
 ## Core Features
 

@@ -1,4 +1,4 @@
-// 1. Paste your contract ABI here
+
 export const BLOCKLOCKEDWILL_ABI = [
 	{
 		"inputs": [],
@@ -427,5 +427,5 @@ export const BLOCKLOCKEDWILL_ABI = [
 	}
 ];
   
-  // 2. Paste your contract address here
+  
   export const BLOCKLOCKEDWILL_ADDRESS = "0x81BaBd88d5b4633668681e82e50955cB9dAD2bC3"; // 

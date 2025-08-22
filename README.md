@@ -1,18 +1,19 @@
 # LegacyClock: Decentralized Digital Will
 
-LegacyClock is a decentralized application (dApp) that allows users to create, manage, and securely store their digital wills on the blockchain. It ensures that your digital assets and last wishes are passed on to your designated beneficiaries only after a predetermined period of inactivity, providing peace of mind and a secure, trustless system for digital inheritance.
+
+LegacyClock is a decentralized application (dApp) that allows users to create, manage, and securely store their digital wills on the blockchain. It ensures that your digital assets and last wishes are passed on to your designated beneficiaries only after a specific block height is reached, providing a trustless and secure system for digital inheritance.
 
 ![LegacyClock Screenshot](https://github.com/kodkenyalang/LegacyCLock/blob/main/LegacyClock.png)
 
 ## Core Features
 
-*   **Seamless Wallet Integration**: Easily connect with a variety of Web3 wallets like MetaMask, Coinbase Wallet, or social accounts using the integrated Thirdweb SDK.
-*   **Create & Encrypt Your Will**: A user-friendly interface to write your will, define beneficiaries, and list digital assets. All content is encrypted before being stored.
-*   **Decentralized Storage**: The encrypted will and its decryption keys are stored on decentralized networks (simulation using IPFS hashes), preventing single points of failure.
-*   **Inactivity-Based Release**: The will can only be accessed by beneficiaries after the creator (testator) fails to "check-in" within a specified time period (e.g., 90 days), ensuring it's only released when intended.
-*   **Secure Beneficiary Access**: Beneficiaries can search for a will using the testator's address and, if the inactivity period has passed, can use their unique key share to decrypt the will's content.
-*   **Dual-Role Interface**: A clean, tab-based UI allowing users to seamlessly switch between the "Testator" view (to manage their own will) and the "Beneficiary" view (to access a will left to them).
-
+*   **Seamless Wallet Integration**: Connect with Web3 wallets like MetaMask or use social logins via the integrated Thirdweb SDK.
+*   **On-Chain Will Creation**: Create your will and lock it in a smart contract on the Filecoin Calibration testnet. The transaction defines an encrypted will hash and a future block number for release.
+*   **Decentralized & Secure**: The core logic is governed by the `BlocklockedWill` smart contract. While this version uses `localStorage` to simulate off-chain data (like will content), the release mechanism is fully on-chain.
+*   **Block-Based Release**: The will's decryption key can only be revealed by the beneficiary after the current blockchain height surpasses the `lockBlock` defined during creation, ensuring it's only released when intended.
+*   **Secure Beneficiary Access**: A beneficiary can interact with the contract to check the will's status. If the `lockBlock` has passed, they can call a function to receive the decryption key.
+*   **Dual-Role Interface**: A clean, tab-based UI allowing users to switch between the "Testator" view (to manage their own will) and the "Beneficiary" view (to access a will left to them).
+*   
 ## Technology Stack
 
 This project is built with a modern, robust, and type-safe technology stack:
@@ -21,7 +22,7 @@ This project is built with a modern, robust, and type-safe technology stack:
 *   **Language**: [TypeScript](https://www.typescriptlang.org/)
 *   **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [ShadCN/UI](https://ui.shadcn.com/) for beautiful, accessible components.
 *   **Web3**: [Thirdweb](https://thirdweb.com/) for multi-wallet connectivity and smart contract interaction.
-  
+*   **Smart Contract**: A `BlocklockedWill` contract written in Solidity.
 
 ## Getting Started
 
@@ -66,15 +67,16 @@ Open [http://localhost:9002](http://localhost:9002) with your browser to see the
 
 ## How It Works
 
-The core of LegacyClock is the `useLegacyClock` hook, which currently simulates the backend logic using the browser's `localStorage`.
+The core of LegacyClock is the `useLegacyClock` hook, which interacts with a deployed `BlocklockedWill` smart contract.
 
-1.  **Will Creation**: A user connects their wallet and fills out the `CreateWillForm`. Upon submission, the will's data is stringified and stored in `localStorage`, keyed by the user's wallet address. Mock IPFS hashes are generated to simulate decentralized storage.
-2.  **Check-in**: The testator can click the "I'm Alive!" button to update a timestamp in `localStorage`. This action resets the inactivity timer.
-3.  **Beneficiary Search**: A beneficiary enters a testator's address. The application checks `localStorage` for a corresponding will.
-4.  **Claiming the Will**: If a will is found, the beneficiary can attempt to claim it. The app checks if the time since the last check-in exceeds the will's `inactivityPeriodDays`. If it does, the (simulated) decrypted content of the will is revealed.
+1.  **Will Creation**: A user connects their wallet and fills out the `CreateWillForm`. Upon submission, the dApp sends a transaction to the `setWill` function of the smart contract. This on-chain call records a hash of the encrypted will (simulated IPFS hash) and a decryption key (both mocked for this version). The UI-related will data is stored in `localStorage` to simulate retrieval from a service like IPFS.
+2.  **Beneficiary Search**: A beneficiary enters a testator's address. The application reads the will's status from the smart contract using `getContractState`.
+3.  **Claiming the Will**: If a will exists and the blockchain's current block number has surpassed the will's `lockBlock`, the beneficiary can claim it. This calls the `revealDecryptionKey` function on the smart contract. If successful, the contract releases the decryption key, and the dApp displays the (simulated) decrypted content from `localStorage`.
+4.  **Check-in**: The "Check-in" functionality in the UI is a placeholder from the previous design. The current smart contract uses a fixed `lockBlock` for release and does not support a "heartbeat" or check-in mechanism to extend the lock.
 
 ## Future Development
 
-*   **Smart Contract Integration**: Replace the `localStorage` simulation with real smart contract interactions on a network like Filecoin Calibration or an EVM-compatible L2.
-*   **IPFS Integration**: Use a service like Thirdweb Storage or a public IPFS gateway to upload the encrypted will content and key shares.
-*   **Enhanced Security**: Implement robust encryption/decryption logic and a secure method for splitting and distributing decryption keys to beneficiaries.
+*   **Full IPFS Integration**: Replace the `localStorage` simulation with a real decentralized storage solution like IPFS. The `createWill` flow would first upload the encrypted will content to IPFS and then pass the resulting hash to the smart contract.
+*   **Enhanced Security**: Implement robust, real-world encryption/decryption logic and a secure method for managing keys.
+*   **Dynamic Lock Period**: Update the smart contract to allow the testator to "check-in" and postpone the `lockBlock`, aligning with the original inactivity-based design.
+*   **Multi-Beneficiary Key Management**: Implement a key-splitting mechanism (e.g., Shamir's Secret Sharing) and store the key shares on a decentralized network, allowing multiple beneficiaries to collectively decrypt the will.

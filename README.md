@@ -13,7 +13,7 @@ LegacyClock is a decentralized application (dApp) that allows users to create, m
 *   **Block-Based Release**: The will's decryption key can only be revealed by the beneficiary after the current blockchain height surpasses the `lockBlock` defined during creation, ensuring it's only released when intended.
 *   **Secure Beneficiary Access**: A beneficiary can interact with the contract to check the will's status. If the `lockBlock` has passed, they can call a function to receive the decryption key.
 *   **Dual-Role Interface**: A clean, tab-based UI allowing users to switch between the "Testator" view (to manage their own will) and the "Beneficiary" view (to access a will left to them).
-*   
+  
 ## Technology Stack
 
 This project is built with a modern, robust, and type-safe technology stack:
